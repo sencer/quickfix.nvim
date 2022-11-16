@@ -23,4 +23,13 @@ M.text = M.wrap(function(item)
 	return item.text
 end)
 
+M.shorten = M.wrap(function(item)
+	return table.concat({
+		vim.fn.pathshorten(vim.fn.bufname(item.bufnr)),
+		item.lnum or "",
+		item.col or "",
+		item.text,
+	}, "|")
+end)
+
 return M
