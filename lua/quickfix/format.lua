@@ -19,6 +19,8 @@ M.wrap = function(fn)
 	return formatter
 end
 
-M.text = M.wrap(function(item) return item.text end)
+M.text = M.wrap(function(item)
+	return item.text
+end)
 
 return M
