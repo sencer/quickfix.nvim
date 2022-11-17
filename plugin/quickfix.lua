@@ -3,7 +3,7 @@ if vim.g.loaded_quickfix ~= nil then
 end
 vim.g.loaded_quickfix = true
 
-vim.o.quickfixtextfunc = "v:lua.require'quickfix.format'.shorten"
+vim.o.quickfixtextfunc = "v:lua.require'sencer.format'.shorten"
 
 vim.keymap.set("n", "]q", ":<C-U>exe v:count1 . 'cnext'<CR>", { remap = false, silent = true })
 vim.keymap.set("n", "[q", ":<C-U>exe v:count1 . 'cprev'<CR>", { remap = false, silent = true })
@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd("WinClosed", {
 
 		for buf = 1, vim.fn.bufnr("$") do
 			if buf ~= vim.fn.bufnr() and vim.fn.buflisted(buf) == 1 then
-				vim.cmd("wincmd w | b " .. buf .. "|cwin" .. bounded(#vim.fn.getqflist()))
+				vim.cmd("wincmd w | b " .. buf .. "|cwin" .. bounded(#vim.fn.getqflist()) .. "|wincmd p")
 				return
 			end
 		end
