@@ -24,7 +24,7 @@ vim.api.nvim_create_augroup("QuickfixSettings", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "qf",
 	group = "QuickfixSettings",
-	command = "setlocal number norelativenumber wrap nobuflisted colorcolumn=",
+	command = "setlocal number norelativenumber wrap nobuflisted nospell colorcolumn=",
 })
 
 -- Close loclist if parent window is closed + open loclist automatically when populated with auto-adjusted size.
