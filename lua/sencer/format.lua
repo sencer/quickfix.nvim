@@ -11,8 +11,8 @@ M.wrap = function(fn)
 			items = vim.fn.getloclist(input.winid, { id = input.id, items = 1 }).items
 		end
 		local formatted = {}
-		for _, item in pairs(vim.list_slice(items, input.start_idx, input.end_idx)) do
-			table.insert(formatted, fn(item))
+		for i = input.start_idx, input.end_idx do
+			table.insert(formatted, fn(items[i]))
 		end
 		return formatted
 	end
@@ -24,10 +24,14 @@ M.text = M.wrap(function(item)
 end)
 
 M.shorten = M.wrap(function(item)
+	local lnum = (item.lnum and item.lnum > 0) and tostring(item.lnum) or ""
+	local col = (item.col and item.col > 0) and tostring(item.col) or ""
+	local bufname = item.bufnr > 0 and vim.fn.bufname(item.bufnr) or ""
+	local filename = bufname ~= "" and vim.fn.pathshorten(bufname) or ""
 	return table.concat({
-		vim.fn.pathshorten(vim.fn.bufname(item.bufnr)),
-		item.lnum or "",
-		item.col or "",
+		filename,
+		lnum,
+		col,
 		item.text,
 	}, "|")
 end)
