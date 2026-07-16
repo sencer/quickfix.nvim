@@ -57,22 +57,18 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
 	end,
 })
 
--- Cleanly close Vim if quickfix or loclist is the last window.
 vim.api.nvim_create_autocmd("WinClosed", {
 	pattern = "*",
 	group = "QuickfixSettings",
-	callback = function(args)
-		if vim.fn.winnr("$") == 2 then
-			local closing_winid = tonumber(args.match)
-			for i = 1, 2 do
-				local winid = vim.fn.win_getid(i)
-				if winid ~= closing_winid then
-					local bufnr = vim.fn.winbufnr(i)
-					if vim.fn.getbufvar(bufnr, "&buftype") == "quickfix" then
-						vim.cmd("qa")
-					end
+	callback = function()
+		vim.schedule(function()
+			local wins = vim.api.nvim_list_wins()
+			if #wins == 1 then
+				local buf = vim.api.nvim_win_get_buf(wins[1])
+				if vim.bo[buf].buftype == "quickfix" then
+					vim.cmd("qa")
 				end
 			end
-		end
+		end)
 	end,
 })
