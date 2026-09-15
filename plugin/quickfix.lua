@@ -22,7 +22,9 @@ map("]L", "lnewer", "Newer loclist")
 map("[L", "lolder", "Older loclist")
 
 local function bounded(numitems)
-	return math.max(1, math.min(10, numitems))
+	local max_rows = vim.g.quickfix_max_rows or vim.g.quickfix_max_height or 10
+	local min_rows = vim.g.quickfix_min_rows or vim.g.quickfix_min_height or 1
+	return math.max(min_rows, math.min(max_rows, numitems))
 end
 
 vim.api.nvim_create_augroup("QuickfixSettings", { clear = true })
